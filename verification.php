@@ -18,10 +18,17 @@ if(isset($_POST['login']) && isset($_POST['password']))
         $count = $reponse['count(*)'];
         if($count!=0) // nom d'utilisateur et mot de passe correctes
         {
-            $requete = "SELECT IDutilisateur FROM utilisateur where Email = '".$login."' and MotDePasse = '".$password."' ";
+            $requete = "SELECT * FROM utilisateur where Email = '".$login."' and MotDePasse = '".$password."' ";
             $exec_requete = mysqli_query($db,$requete);
-            $reponse      = mysqli_fetch_array($exec_requete);
-            $_SESSION['login'] = $reponse['IDutilisateur'];
+            $reponse      = mysqli_fetch_assoc($exec_requete);
+            $_SESSION['ID'] = $login;
+            $_SESSION['Nom'] = $reponse['Nom'];
+            $_SESSION['Prenom'] = $reponse['Prenom'];
+            $_SESSION['Email'] = $reponse['Email'];
+            $_SESSION['MDP'] = $password;
+            $_SESSION['Photo'] = $reponse['Photo'];
+            $_SESSION['ImageFond'] = $reponse['ImageFond'];
+            $_SESSION['Telephone'] = $reponse['Telephone'];
             header('Location: Home.php');
         }
         else
