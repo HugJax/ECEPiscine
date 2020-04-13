@@ -11,8 +11,8 @@
         <link href="sheet.css" rel="stylesheet" type="text/css">
         <style>
             .bg {
-              background-image: url("images/fond.jpg");
-              height: 20%; 
+              background-image: url("images/fond2.png");
+              height: 13%; 
               padding: 0;
               margin: 0;
               background-position: center;
@@ -24,9 +24,19 @@
                left: 0;
                bottom: 0;
                width: 100%;
-               background-color:darkslateblue;
+               font-size: 0.8em;
+               background-color:#52527a;
                color: white;
                text-align: center;
+            }
+            .nav-bar{
+                background: #29a3a3;
+                color: aliceblue;
+                height:40px;
+                text-align: center;
+                margin-bottom:15px;
+                margin-top: 0;
+                padding: 0;
             }
         </style>
         <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -43,24 +53,32 @@
         <div class="header-home">
             <div class="nav-bar">
                 <ul>
-                    <li><a class="underlineHover" href="#">Catégories</a></li>
-                    <li><a class="underlineHover" href="#">Vendre</a></li>
-                    <li style="float: right; margin-right: 30px"><a class="underlineHover" href="logout.php?logout=true"><span><?php 
-                            if(isset($_SESSION['login'])){
-                            echo 'Se déconnecter';}
-                            else {echo "Créer un compte";}
-                        ?></span></a></li>
-                    <li style="float: right"><a class="underlineHover" href="#"><?php 
-                            if(isset($_SESSION['login'])){
-                            echo 'Panier';}
-                        ?></a></li>
-                    <li style="float: right"><a class="underlineHover" href="#">
-                        <?php 
-                            if(isset($_SESSION['login'])){
-                            echo $_SESSION['login'];}
-                            else {echo "Se connecter";}
-                        ?>
-                        </a></li>
+                    <li>
+                        <a class="underlineHover" href="Home.php">
+                            <img src="images/boutonAccueil.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="underlineHover" href="#">
+                            <img src="images/boutonCategorie.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="underlineHover" href="#">
+                            <img src="images/boutonVendre.png">
+                        </a>
+                    </li>
+                    <?php
+                        if(isset($_SESSION['login']))
+                        {
+                            echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='logout.php?logout=true'><img src='images/boutonDeconnexion.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><img src='images/boutonPanier.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'>".$_SESSION['login']."</a></li>";
+                        }
+                    else
+                    {
+                        echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='newuser.html'><img src='images/boutonNouveauCompte.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='logIn.html'><img src='images/boutonSeConnecter.png'></a></li>";
+                    }
+                    ?>
+                    
                 </ul>
             </div>
         </div>
