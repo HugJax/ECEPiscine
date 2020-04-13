@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="images/favicon.ico">
+        <title>Piscine :: Log In Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="sheet.css" rel="stylesheet" type="text/css">
+        <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+        <script src= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.j s"> </script>
+    </head>
+    
+    <body>
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <h2 class="active">Let's log in</h2>
+                <form action="verification.php" method="POST">
+                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                    <input type="submit" class="fadeIn fourth" value="Log In">
+                </form>
+                <div id="formFooter">
+                    <a class="underlineHover" href="newuser.html">New User?</a> <br>
+                    <a class="underlineHover" href="askpassword.html">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

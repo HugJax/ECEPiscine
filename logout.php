@@ -1,0 +1,11 @@
+<?php
+    session_start();
+    if(isset($_GET['logout']))
+    { 
+       if($_GET['logout']==true)
+       {  
+          session_unset();
+          header("Location:logIn.html");
+       }
+    }
+?>
