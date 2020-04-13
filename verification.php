@@ -1,10 +1,9 @@
 <?php
 session_start();
-$_SESSION['login'] = 'null';
 
 if(isset($_POST['login']) && isset($_POST['password']))
 {
-    $db = mysqli_connect('localhost', 'root', '', 'piscine')
+    $db = mysqli_connect('localhost', 'root', '', 'ebayece')
            or die('could not connect to database');
     
     $login = isset($_POST["login"])?$_POST["login"] : "";
@@ -12,15 +11,18 @@ if(isset($_POST['login']) && isset($_POST['password']))
     
     if($login !== "" && $password !== "")
     {
-        $requete = "SELECT count(*) FROM user where 
-        username = '".$login."' and password = '".$password."' ";
+        $requete = "SELECT count(*) FROM utilisateur where 
+        Email = '".$login."' and MotDePasse = '".$password."' ";
         $exec_requete = mysqli_query($db,$requete);
         $reponse      = mysqli_fetch_array($exec_requete);
         $count = $reponse['count(*)'];
         if($count!=0) // nom d'utilisateur et mot de passe correctes
         {
-           $_SESSION['login'] = $login;
-           header('Location: Home.html');
+            $requete = "SELECT IDutilisateur FROM utilisateur where Email = '".$login."' and MotDePasse = '".$password."' ";
+            $exec_requete = mysqli_query($db,$requete);
+            $reponse      = mysqli_fetch_array($exec_requete);
+            $_SESSION['login'] = $reponse['IDutilisateur'];
+            header('Location: Home.php');
         }
         else
         {
