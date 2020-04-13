@@ -1,0 +1,11 @@
+Système de connexion et création de compte
+
+Fonctions:
+  - LogIn.html (connexion et ajout des informations du compte dans la session)
+  - LogOut.php
+  - newuser.html
+  - askpassword.html (envoie un mail avec le mot de passe)
+  - sheet.css
+  - verification.php
+  
+Aucun fichier supplémentaire nécessaire
