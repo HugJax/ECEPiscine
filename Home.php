@@ -69,9 +69,9 @@
                         </a>
                     </li>
                     <?php
-                        if(isset($_SESSION['login']))
+                        if(isset($_SESSION['ID']))
                         {
-                            echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='logout.php?logout=true'><img src='images/boutonDeconnexion.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><img src='images/boutonPanier.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'>".$_SESSION['login']."</a></li>";
+                            echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='logout.php?logout=true'><img src='images/boutonDeconnexion.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><img src='images/boutonPanier.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><div style='color:white;font-family: comic sans ms';'>".$_SESSION['Nom']." ".$_SESSION['Prenom']."</div></a></li>";
                         }
                     else
                     {
@@ -84,8 +84,19 @@
         </div>
         
         
-        
-        
+        <!--Récupération des données-->
+        <p>
+            <?php
+                echo $_SESSION['ID']."<br>";
+                echo $_SESSION['Nom']."<br>";
+                echo $_SESSION['Prenom']."<br>";
+                echo $_SESSION['Email']."<br>";
+                echo $_SESSION['MDP']."<br>";
+                echo $_SESSION['Photo']."<br>";
+                echo $_SESSION['ImageFond']."<br>";
+                echo "+33 ".$_SESSION['Telephone']."<br>";
+            ?>
+        </p>
         
         
         
