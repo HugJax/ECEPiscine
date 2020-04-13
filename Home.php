@@ -20,7 +20,6 @@
               background-size: cover;
             }
             .footer {
-               position: fixed;
                left: 0;
                bottom: 0;
                width: 100%;
@@ -38,14 +37,28 @@
                 margin-top: 0;
                 padding: 0;
             }
+            .nav-bar.fixed{
+              position:fixed;
+              top:0;
+                right: 0;
+                left: 0;
+              z-index: auto;
+            }
         </style>
         <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script type="text/javascript" src="navbar.js"></script>
         <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
         <script src= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.j s"> </script>
-        <script><?php
-            session_start();
-        ?> </script>
+        <script>
+            $(window).scroll(function (event) {
+            var y = $(this).scrollTop(); 
+            if (y >= 125) {
+              $('.nav-bar').addClass('fixed');
+            } else {
+              $('.nav-bar').removeClass('fixed');
+            }
+          });
+        </script>
     </head>
     
     <body>
@@ -53,29 +66,29 @@
         <div class="header-home">
             <div class="nav-bar">
                 <ul>
-                    <li>
-                        <a class="underlineHover" href="Home.php">
-                            <img src="images/boutonAccueil.png">
+                    <li style="margin-right: 60px; margin-left: 60px;">
+                        <a class="underlineHover" href="Home.php" style='text-decoration:none;'>
+                            <div style='color:white;font-family: comic sans ms;'>Accueil</div>
                         </a>
                     </li>
-                    <li>
-                        <a class="underlineHover" href="#">
-                            <img src="images/boutonCategorie.png">
+                    <li style="margin-right: 60px;">
+                        <a class="underlineHover" href="#" style='text-decoration:none;'>
+                            <div style='color:white;font-family: comic sans ms;'>Catégories</div>
                         </a>
                     </li>
-                    <li>
-                        <a class="underlineHover" href="#">
-                            <img src="images/boutonVendre.png">
+                    <li style="margin-right: 60px;">
+                        <a class="underlineHover" href="#" style='text-decoration:none;'>
+                            <div style='color:white;font-family: comic sans ms;'>Vendre</div>
                         </a>
                     </li>
                     <?php
                         if(isset($_SESSION['ID']))
                         {
-                            echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='logout.php?logout=true'><img src='images/boutonDeconnexion.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><img src='images/boutonPanier.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#'><div style='color:white;font-family: comic sans ms';'>".$_SESSION['Nom']." ".$_SESSION['Prenom']."</div></a></li>";
+                            echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='logout.php?logout=true' style='text-decoration:none;'><div style='color:white;font-family: comic sans ms;'>Déconnexion</div></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#' style='text-decoration:none;'><div style='color:white;font-family: comic sans ms;'>Panier</div></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='#' style='text-decoration:none;'><div style='color:white;font-family: comic sans ms';'>".$_SESSION['Nom']." ".$_SESSION['Prenom']."</div></a></li>";
                         }
                     else
                     {
-                        echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='newuser.html'><img src='images/boutonNouveauCompte.png'></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='logIn.html'><img src='images/boutonSeConnecter.png'></a></li>";
+                        echo "<li style='float: right; margin-right: 30px'><a class='underlineHover' href='newuser.html' style='text-decoration:none;'><div style='color:white;font-family: comic sans ms;'>Nouveau compte</div></a></li><li style='float: right; margin-right: 30px'><a class='underlineHover' href='logIn.html' style='text-decoration:none;'><div style='color:white;font-family: comic sans ms;'>Se connecter</div></a></li>";
                     }
                     ?>
                     
@@ -87,6 +100,7 @@
         <!--Récupération des données-->
         <p>
             <?php
+            for($i=1;$i<10;$i++){
                 echo $_SESSION['ID']."<br>";
                 echo $_SESSION['Nom']."<br>";
                 echo $_SESSION['Prenom']."<br>";
@@ -94,7 +108,7 @@
                 echo $_SESSION['MDP']."<br>";
                 echo $_SESSION['Photo']."<br>";
                 echo $_SESSION['ImageFond']."<br>";
-                echo "+33 ".$_SESSION['Telephone']."<br>";
+                echo "+33 ".$_SESSION['Telephone']."<br>";}
             ?>
         </p>
         
