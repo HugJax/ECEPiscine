@@ -1,66 +1,84 @@
 <?php
-
     
     session_start();
 
-    //Connexion à la base de données 
-    $db = mysqli_connect('localhost', 'root', '', 'ebayece')
-           or die('could not connect to database');
+    //Connexion à la base de données version 1
+    //$db = mysqli_connect('localhost', 'root', '', 'ebayece')
+      //     or die('could not connect to database');
+
+    //Connexion à la base de données version 2
+    $database = 'ebayece';
+
+    $db_handle = mysqli_connect('localhost','root', '');
+
+    $db_found = mysqli_select_db($db_handle, $database);
+
     
-    $propositions = 5;
-    
-//SUREMENT COMMANDE NECESSAIRE POUR IDVENDEUR
-    
-    $IDacheteur = session_id();     //On trouve la session en cours d'utilisation
-    $IDvendeur = isset($_POST['IDproduit'])? $_POST["IDproduit"] : ""; //On trouve le vendeur du produit par l'identifiant de ce dernier 
+    $propositions = 0;              //nombre maximal de propositions de prix que peut faire l'acheteur 
+    $IDacheteur = isset($_SESSION['IDutilisateur']) ? $_SESSION['IDutilisateur'] : NULL;
+
+    $IDacheteur = $_SESSION['login'];     //On trouve l'ID du propriétaire de la session en cours d'utilisation
+
+//POUR LA VERSION FINALE AVEC DE VRAI PRODUITS    $IDvendeur = isset($_POST['$IDproduit'])? $_POST["$IDproduit"] : ""; //On trouve le vendeur du produit par l'identifiant de ce dernier 
+
 
     if($IDacheteur)             //Si la session est ouverte
     {
-        echo "session trouvée";
-        $prixPropose = isset($_POST['prixPropose'])? $_POST["prixPropose"] : "";
+        $prixPropose = isset($_POST['prixPropose'])? $_POST["prixPropose"] : "";       //On vérifie que l'utilisateur a fait une proposition
         
-        
-
         if(isset($_POST['prixPropose']))           //le prix est proposé par l'acheteur
-        {        echo "CCCCCC";
-
-            $requete1 = "INSERT INTO `negociation`(`Commentaire`) VALUES ('".$prixPropose."')";          ////On injecte la donnée saisie par l'utilisateur dans la table
-         
-            $exec_requete1 = mysql_query($requete1);
-
-            echo "Je vous propose". $prixPropose. euros;
+        {  
+            
+            //Ces variables doivent être changées pour intégrer la page 
+            $Prix = 12;
+            $EtatVente = 0;
+            $Acceptation = 0;
+            $IDproduit = 1;
+            $IDvendeur = 3;
+            
+           
+            //On insère la proposition d'achat dans la table négociation
+            $requete1 = "INSERT INTO `negociation`(`IDproduit`, `IDutilisateur`, `Commentaire`, `Prix`, `EtatVente`, `Acceptation`) VALUES ((SELECT IDproduit FROM produit WHERE IDproduit='".$IDproduit."'), (SELECT IDutilisateur FROM utilisateur WHERE IDutilisateur='".$IDacheteur."'), '".$prixPropose."', '".$Prix."' ,0,0)";
+           
+            $db_handle->query($requete1);           //On effectue la requête d'insertion précédente
+      
+            echo "Je vous propose". $prixPropose. "euros";
                         
-            $requete2 = "SELECT Acceptation FROM negociation";
-         
-            $exec_requete2 = mysql_query($db,$requete2);
+            
+            //On récupère le booléen spécifiant si la proposition de l'acheteur connecté est satisfaite
+            $requete2 = "SELECT Acceptation FROM negociation WHERE IDutilisateur = '".$IDacheteur."' "; 
+            
+            $db_handle->query($requete2);           //On effectue la requête précédente 
 
        
-            while(nbchances != 0)       //Tant qu'on est à moins de 5 propositions
+            if($propositions < 5 )       //Si on est à moins de 5 propositions
             {
-                if($sql1 == true)               //Si le vendeur accepte l'offre
+                
+                if($requete2 == 1)               //Si le vendeur accepte l'offre
                 {
-                    echo "Bravo, votre offre a été acceptez par l'acheteur";
-                    //Supprimer de la table
-                    $requete3 = "DELETE FROM `negociation`(`Commentaire`) VALUES ('".$prixPropose."')";       
-                    $exec_requete3 = mysql_query($db,$requete3);
+                    echo "Bravo, votre offre a été acceptée par l'acheteur";
+                    //Suppression de votre ancienne proposition de la table
+                    $requete3 = "DELETE * FROM `negociation` WHERE IDutilisateur='".$IDacheteur."' ";       
+                    $db_handle->query($requete3);
 
-                    
                 }
-                else                    //Si le vendeur refuse l'offre
+                if($requete2 == 0)                     //Si le vendeur refuse l'offre
                 {
-                    propositions-1;    //Décrémentation du nombre de propositions 
-                    echo "Votre offre n'a pas été acceptée, proposez plus, il vous reste " .propositions. "propositions";
-                    //Supprimer de la table
-                    $requete = "DELETE FROM `negociation`(`Commentaire`) VALUES ('".$prixPropose."')";  
-                    $exec_requete4 = mysql_query($db,$requete4);
-
+                    ++$propositions;    //Incrémentation du nombre de propositions 
+                    echo "Votre offre n'a pas été acceptée, Le vendeur va vous faire une contre-offre, il vous reste " .$propositions. "propositions";
+                    //Suppression de votre ancienne proposition de la table 
+                    $requete4 = "DELETE FROM `negociation`(`Commentaire`) VALUES ('".$prixPropose."')";  
+                    $db_handle->query($requete4);
+         
                 }
             }
-                
             
         }
+        
     
     }
+
+    mysqli_close($db_handle);
     
 
 ?>
