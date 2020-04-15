@@ -5,7 +5,7 @@
        if($_GET['logout']==true)
        {  
           session_unset();
-          header("Location:logIn.html");
+          header("Location:Home.php");
        }
     }
 ?>

@@ -2,25 +2,59 @@
 <html>
     <head>
         <link rel="icon" href="images/favicon.ico">
-        <title>Piscine :: New User</title>
+        <title>EBay ECE :: Créer son compte</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="sheet.css" rel="stylesheet" type="text/css">
         <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
         <script src= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.j s"> </script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     </head>
     
     <body>
         <div class="wrapper fadeInDown">
-            <div id="formContentbis">
-                <h2 class="active">Tell us about yourself</h2>
-                <form>
-                    <input type="text" id="Firstname" class="fadeIn second" name="Firstname" placeholder="Firstname">
-                    <input type="text" id="Lastname" class="fadeIn second" name="Lastname" placeholder="Lastname">
-                    <input type="text" id="Mail" class="fadeIn second" name="Mail" placeholder="E-Mail address">
-                    <input type="password" id="password" class="fadeIn third" name="login" placeholder="password">
-                    <input type="submit" class="fadeIn fourth" value="Begin Adventure">
+            <div id="formContent" style="max-height: none;width: 850px;padding: 20px;text-align: center;align-content: center;align-items: center">
+                <h2 class="active" style="color: #008080">Bienvenue chez nous</h2>
+                <form method="post" action="newuser.php" enctype="multipart/form-data">
+                    <div class="input-group">
+                      <label>Nom</label>
+                      <input type="text" name="nom">
+                    </div>
+                    <div class="input-group">
+                      <label>Prénom</label>
+                      <input type="text" name="prenom">
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="Photo">Photo de profil</label>
+                      <div class="col-md-4">
+                        <input id="Photo" name="Photo" class="input-file" type="file">
+                      </div>
+                    </div><br><br>
+                        <div class="form-group">
+                      <label class="col-md-4 control-label" for="ImageFond">Image de fond</label>
+                      <div class="col-md-4">
+                        <input id="ImageFond" name="ImageFond" class="input-file" type="file">
+                    </div></div><br><br>
+                    <div class="input-group">
+                      <label>E-mail</label>
+                      <input type="email" name="mail">
+                    </div>
+                    <div class="input-group">
+                      <label>Téléphone</label>
+                      <input type="number" name="telephone">
+                    </div>
+                    <div class="input-group">
+                      <label>Password</label>
+                      <input type="password" name="mdp">
+                    </div>
+                    <div class="form-group">
+                          <div class="col-md-4">
+                          <input type="submit" class="fadeIn fourth" value="Créer un compte" style="background-color: #008080"><br>
+                          </div>
+                        </div>
                 </form>
             </div>
         </div>

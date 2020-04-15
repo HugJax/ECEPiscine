@@ -21,7 +21,7 @@ if(isset($_POST['login']) && isset($_POST['password']))
             $requete = "SELECT * FROM utilisateur where Email = '".$login."' and MotDePasse = '".$password."' ";
             $exec_requete = mysqli_query($db,$requete);
             $reponse      = mysqli_fetch_assoc($exec_requete);
-            $_SESSION['ID'] = $login;
+            $_SESSION['ID'] = $reponse['IDutilisateur'];
             $_SESSION['Nom'] = $reponse['Nom'];
             $_SESSION['Prenom'] = $reponse['Prenom'];
             $_SESSION['Email'] = $reponse['Email'];
@@ -29,6 +29,7 @@ if(isset($_POST['login']) && isset($_POST['password']))
             $_SESSION['Photo'] = $reponse['Photo'];
             $_SESSION['ImageFond'] = $reponse['ImageFond'];
             $_SESSION['Telephone'] = $reponse['Telephone'];
+            $_SESSION['Vendeur'] = $reponse['vendeur'];
             header('Location: Home.php');
         }
         else
