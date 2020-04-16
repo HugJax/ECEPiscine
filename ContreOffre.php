@@ -12,86 +12,89 @@
             
     $IDvendeur = isset($_SESSION['IDutilisateur']) ? $_SESSION['IDutilisateur'] : NULL;
 
-    $IDvendeur = $_SESSION['login'];     //On trouve l'ID du propriétaire (le vendeur) de la session en cours d'utilisation
+    $IDvendeur = $_SESSION['ID'];     //On trouve l'ID du propriétaire (le vendeur) de la session en cours d'utilisation
+
+    $idAnnonce = isset($_POST['idAnnonce']) ? $_POST['idAnnonce'] : NULL; //On récupère l'annonce du propriétaire
 
 
-        $IDacheteur = isset($_SESSION['IDutilisateur']) ? $_SESSION['IDutilisateur'] : NULL;
-
-    $IDacheteur = $_SESSION['login'];     //On trouve l'ID du propriétaire de la session en cours d'utilisation
-
-
-    //identifier la fonction désirée
-    if (isset ($_POST['oui']))
-    {
-        $answer = "oui";
-    }
-
-    if (isset ($_POST['non']))
-    {
-        $answer = "non";
-    }
-
-    if (isset ($_POST['contreProposition']))
-    {
-        $answer = "contreProposition";
-    }
 
     if($IDvendeur)             //Si la session du vendeur est reconnue
     {
-        
-        $choixVendeur = 0;
-        
-        $IDproduit;
-        
-        
-        $requete1 = "(SELECT IDutilisateur FROM produit WHERE IDutilisateur='".$IDvendeur."')" ;        //On cherche l'identifiant du vendeur dans la table produit
-        $db_handle->query($requete1);           //Exécution de la requête 1
-        
-        $requete2 = "SELECT IDproduit FROM produit WHERE IDproduit = '".$IDproduit."'";         //On cherche que l'on traite 
-        $db_handle->query($requete2);           //Exécution de la requête 2
-        
-        $requete3 = "SELECT IDproduit FROM negociation";
-        $db_handle->query($requete3);           //Exécution de la requête 3
-        
-        if($requete2 == $requete3)              //Si le vendeur connecté
-        {
-            $nouveauPrix = isset($_POST['nouveauPrix'])? $_POST["nouveauPrix"] : "";       //On vérifie que l'utilisateur a fait une proposition
 
+        
+        $requete ="SELECT negociation.IDnegociation 
+                    FROM negociation 
+                    INNER JOIN produit ON negociation.IDproduit = produit.IDproduit 
+                    INNER JOIN utilisateur ON negociation.IDutilisateur = utilisateur.IDutilisateur
+                    WHERE ((produit.IDutilisateur = '".$IDvendeur."') AND (negociation.IDnegociation = '".$idAnnonce."'))";
+       // $db_handle;
+  
+    
+        
+        if($idAnnonce= $db_handle->query($requete))              //Si le vendeur entre une contre-offre
+        {
             
-            echo "Un utilisateur vous a fait une offre d'achat";
+            echo "salutttt";
+                //identification de la réponse du vendeur 
+                if (isset ($_POST['Oui']))
+                {
+                    $answer = "Oui";
+                }
+
+                else if (isset ($_POST['Non']))
+                {
+                    $answer = "Non";
+                }   
+            
+                else if (isset ($_POST['contreProposition']))
+                {
+                    $answer = "contreProposition";
+                } else {
+                    
+                    $answer = null;
+                }
+
                         
 ///////////////////////////////REMPLACER PAR DES IF avec un choix multiple dans le html//////////////////////////
             
-            if($answer == "oui")
+            if($answer == "Oui")            //Si le vendeur accepte l'offre 
+            { 
+                echo "hijhbhjijuhbhjjh";
+                //$requete4 = " UPDATE negociation SET EtatVente = 1, Acceptation = 1 WHERE IDnegociation='".$idAnnonce"' ";      //Acceptation de la demande du client
+                //$db_handle->query($requete4);
+                echo "Bravo, vous venez de vendre votre produit";
+            } 
+            else if($answer == "Non")            //Si le vendeur décline l'offre           
             {
-                $requete4 = " UPDATE negociation SET EtatVente = 1, Acceptation = 1 ";      //Acceptation de la demande du client
-                $db_handle->query($requete4);
-                echo "Votre propoition a bien été enregistrée";
+                //$requete5 = " UPDATE negociation SET EtatVente = 1, Acceptation = 0 WHERE IDnegociation='".$idAnnonce"'";      //Acceptation de la demande du client
+                //$db_handle->query($requete5);
+                echo "Vous avez refusé la proposition du client";
             }
-            
-            if($answer == "non")            
-            {
-                $requete5 = " UPDATE negociation SET EtatVente = 1, Acceptation = 0 ";      //Acceptation de la demande du client
-                $db_handle->query($requete5);
-                echo "Votre propoition a bien été enregistrée";
-            }
-            
-            if($answer == "contreProposition")
+            else if($answer == "contreProposition")              //Si le vendeur fait une contre offre
             {
                 if($_POST['nouveauPrix'])       //Si une contre-offre est proposé par le vendeur du produit
                 {
-                    //Acceptation de la demande du client
-                    $requete6 = " UPDATE negociation SET Commentaire = '".$nouveauPrix."',Prix = '".$nouveauPrix."'";      
-                    $db_handle->query($requete6);
-                    echo "Votre propoition a bien été enregistrée";
+                    //Insertion de la contre-offre dans la base de données
+                    //$requete6 = " UPDATE negociation SET Commentaire = '".$nouveauPrix."',Prix = '".$nouveauPrix."' WHERE IDnegociation='".$idAnnonce"' ";      
+                    //$db_handle->query($requete6);
+                    echo "L'offre que vous avez fait au client concerné à bien été enregistrée";
                 }
             }
         
         }
+        else if  ($idAnnonce = "")
+        {
+            echo "Veuillez entrer l'identifiant d'une annonce";
+        }
+        else
+        {
+            echo "La demande d'achat sélectionnée n'existe pas";
+        }
+        
         
     }
 
-
+    
 
 
 ?>
