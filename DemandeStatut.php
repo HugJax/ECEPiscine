@@ -1,11 +1,19 @@
+<!--https://www.pierre-giraud.com/bootstrap-apprendre-cours/carrousel/-->
+
 <?php
     session_start();
+
+    if($_SESSION['Vendeur']==NULL) {
+        $sql="INSERT INTO notifvendeur(IDutilisateur) VALUES (".$_SESSION['ID'].")";
+        $db = mysqli_connect('localhost', 'root', '', 'ebayece');
+        mysqli_query($db, $sql);
+    }
 ?>
 
 <html>
     <head>
         <link rel="icon" href="images/favicon.ico">
-        <title>eBay ECE :: Votre compte</title>
+        <title>eBay ECE :: Home</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="sheet.css" rel="stylesheet" type="text/css">
@@ -70,7 +78,6 @@
             border-style:solid;
             border-color:white;
             position:fixed;
-                text-decoration: none;
             }
 
             .categorie{
@@ -145,44 +152,38 @@
                 </ul>
             </div>
         </div>
-
-        <!--ZONE POUR CODER-->
+        
+        <!--ZONE DE CODAGE-->
         <table><tr>
             <td>
-        <div class="leftcolumn">
-            <div id="formContent" style="padding:50px;margin:55px;margin-left:100px;width: 250px;background-color:#008080">
-                <table style="text-align:center;align-content:center;align-items:center;text-transform: uppercase;display:block;">
-                    <tr><td height=70px><a href="MaJAccount.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Mettre à jour le compte</div></a></td></tr>
-                    <tr><td height=70px><a href="DemandeStatut.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>
-                        <?php if($_SESSION['Vendeur']==NULL){echo "Demander le statut vendeur";}else{echo "Voir négociations proposées";} ?>
-                        </div></a></td></tr>
-                    <tr><td height=70px><a href="HistAchat.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Historique achat</div></a></td></tr>
-                    <tr><td height=70px><a href="Vendre.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Vendre produit</div></a></td></tr>
-                    <tr><td height=70px><a href="logout.php?logout=true" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Déconnexion</div></a></td></tr>
-                </table>
-            </div>
-        </div>
-            </td>
-            <td>
-        <div class="rightcolumn">
-            <div id="formContent" style="padding:50px;max-width:2000px;width:900px;margin-left:40px;height:auto;min-height:445px">
-                <table>
-                    <tr>
-                        <td><img class="media-object dp img-circle" src="<?php echo $_SESSION['Photo'] ?>" style="width: 180px;height:180px;"></td>
-                        <td width=20px> </td>
-                        <td width=400px><h3 style="font-family: 'Oleo Script', cursive;font-size:40px"><?php echo utf8_encode($_SESSION['Nom']."<br>".$_SESSION['Prenom']); ?></h3></td>
-                    </tr>
-                    <tr height=30px></tr>
-                    <tr><td height=40px>E-mail adresse : <?php echo $_SESSION['Email']; ?></td></tr>
-                    <tr><td height=40px>N° de téléphone : <?php echo "+33 ".$_SESSION['Telephone']; ?></td></tr>
-                    <tr><td height=40px>Statut vendeur : <?php if($_SESSION['Vendeur']==NULL){echo "NON";}else{echo "OUI";} ?></td></tr>
-                </table>
-            </div>
-        </div>
+                <div class="leftcolumn">
+                    <div id="formContent" style="padding:50px;margin:55px;margin-left:100px;width: 250px;background-color:#008080">
+                        <table style="text-align:center;align-content:center;align-items:center;text-transform: uppercase;display:block;">
+                            <tr><td height=70px><a href="MaJAccount.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Mettre à jour le compte</div></a></td></tr>
+                            <tr><td height=70px><a href="DemandeStatut.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Demander le statut vendeur</div></a></td></tr>
+                            <tr><td height=70px><a href="HistAchat.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Historique achat</div></a></td></tr>
+                            <tr><td height=70px><a href="Vendre.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Vendre produit</div></a></td></tr>
+                            <tr><td height=70px><a href="logout.php?logout=true" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Déconnexion</div></a></td></tr>
+                        </table>
+                    </div>
+                </div>
+                    </td>
+                    <td>
+                <div class="rightcolumn">
+                    <div id="formContent" style="padding:50px;max-width:2000px;width:900px;margin-left:40px;height:auto;min-height:445px">
+                        <?php
+                            if($_SESSION['Vendeur']==NULL) {
+                                echo "Votre demande pour être vendeur a été envoyée !!";
+                            }else{
+                                echo "Oh mais tu es déjà vendeur !";
+                            }
+                        ?>
+                    </div>
+                </div>
             </td>
         </tr></table>
-        <!--ZONE POUR CODER-->
-
+        <!--ZONE DE CODAGE-->
+        
     </body>
     
     <footer>
@@ -205,7 +206,7 @@
                     <td>Groupe 1 Projet Piscine</td>
                     <td><a href="Apropos.php" style="color:white">A propos de EBay ECE</a></td>
                     <td><a href="#" style="color:white">Bon pour le musée</a></td>
-                    <td>37 Quai de Grenelle, 75015 Paris</td>
+                    <td>37 Quai de Grennelle, 75015 Paris</td>
                 </tr>
                 <tr>
                     <td>ECE Paris ING3 TD5</td>

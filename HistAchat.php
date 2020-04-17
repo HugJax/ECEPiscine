@@ -1,5 +1,22 @@
 <?php
     session_start();
+    $db = mysqli_connect('localhost', 'root', '', 'ebayece')
+           or die('could not connect to database');
+    $requete = "SELECT count(*) FROM transaction where 
+    IDutilisateur = '".$_SESSION['ID']."'";
+    $exec_requete = mysqli_query($db,$requete);
+    $reponse      = mysqli_fetch_array($exec_requete);
+    $count = $reponse['count(*)'];
+    $i=0;
+    $produit = array();
+    if($count!=0) {
+        $requete = "SELECT `transaction`.Prix, transaction.Date, utilisateur.Prenom, produit.Nom FROM `transaction`, produit, utilisateur WHERE transaction.IDutilisateur=".$_SESSION['ID']." AND transaction.IDproduit=produit.IDproduit AND produit.IDutilisateur=utilisateur.IDutilisateur";
+        $exec_requete = mysqli_query($db, $requete);
+        while($reponse = mysqli_fetch_assoc($exec_requete)) {
+            $produit[$i] = array($reponse['Prix'], $reponse['Date'], $reponse['Nom'], $reponse['Prenom']);
+            $i++;
+        }
+    }
 ?>
 
 <html>
@@ -12,7 +29,7 @@
         <style>
             .bg {
               background-image: url("images/fond2.png");
-              height: 14%; 
+              height: 15%; 
                 width: 100%;
                 right: 0;
               padding: 0;
@@ -165,19 +182,11 @@
             </td>
             <td>
         <div class="rightcolumn">
-            <div id="formContent" style="padding:50px;max-width:2000px;width:900px;margin-left:40px;height:auto;min-height:445px">
-                <table>
-                    <tr>
-                        <td><img class="media-object dp img-circle" src="<?php echo $_SESSION['Photo'] ?>" style="width: 180px;height:180px;"></td>
-                        <td width=20px> </td>
-                        <td width=400px><h3 style="font-family: 'Oleo Script', cursive;font-size:40px"><?php echo utf8_encode($_SESSION['Nom']."<br>".$_SESSION['Prenom']); ?></h3></td>
-                    </tr>
-                    <tr height=30px></tr>
-                    <tr><td height=40px>E-mail adresse : <?php echo $_SESSION['Email']; ?></td></tr>
-                    <tr><td height=40px>N° de téléphone : <?php echo "+33 ".$_SESSION['Telephone']; ?></td></tr>
-                    <tr><td height=40px>Statut vendeur : <?php if($_SESSION['Vendeur']==NULL){echo "NON";}else{echo "OUI";} ?></td></tr>
-                </table>
-            </div>
+            <?php
+                for($x=0; $x<=($count-1); $x++) {
+                    echo '<div id="formContent" style="padding:30px;max-width:2000px;width:900px;margin-left:40px;margin-top:20px;height:auto;"><table><tr><td width=120px>'.utf8_encode($produit[$x][0]).'€</td><td width=120px>'.utf8_encode($produit[$x][1]).'</td><td width=220px>'.utf8_encode($produit[$x][2]).'</td><td width=120px>'.utf8_encode($produit[$x][3]).'</td></tr></table></div>';
+                }
+            ?>
         </div>
             </td>
         </tr></table>

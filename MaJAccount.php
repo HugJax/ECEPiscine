@@ -70,7 +70,6 @@
             border-style:solid;
             border-color:white;
             position:fixed;
-                text-decoration: none;
             }
 
             .categorie{
@@ -153,9 +152,7 @@
             <div id="formContent" style="padding:50px;margin:55px;margin-left:100px;width: 250px;background-color:#008080">
                 <table style="text-align:center;align-content:center;align-items:center;text-transform: uppercase;display:block;">
                     <tr><td height=70px><a href="MaJAccount.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Mettre à jour le compte</div></a></td></tr>
-                    <tr><td height=70px><a href="DemandeStatut.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>
-                        <?php if($_SESSION['Vendeur']==NULL){echo "Demander le statut vendeur";}else{echo "Voir négociations proposées";} ?>
-                        </div></a></td></tr>
+                    <tr><td height=70px><a href="DemandeStatut.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Demander le statut vendeur</div></a></td></tr>
                     <tr><td height=70px><a href="HistAchat.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Historique achat</div></a></td></tr>
                     <tr><td height=70px><a href="Vendre.php" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Vendre produit</div></a></td></tr>
                     <tr><td height=70px><a href="logout.php?logout=true" style="text-decoration:none"><div style='color:white;font-family: comic sans ms;'>Déconnexion</div></a></td></tr>
@@ -166,17 +163,42 @@
             <td>
         <div class="rightcolumn">
             <div id="formContent" style="padding:50px;max-width:2000px;width:900px;margin-left:40px;height:auto;min-height:445px">
-                <table>
-                    <tr>
-                        <td><img class="media-object dp img-circle" src="<?php echo $_SESSION['Photo'] ?>" style="width: 180px;height:180px;"></td>
-                        <td width=20px> </td>
-                        <td width=400px><h3 style="font-family: 'Oleo Script', cursive;font-size:40px"><?php echo utf8_encode($_SESSION['Nom']."<br>".$_SESSION['Prenom']); ?></h3></td>
-                    </tr>
-                    <tr height=30px></tr>
-                    <tr><td height=40px>E-mail adresse : <?php echo $_SESSION['Email']; ?></td></tr>
-                    <tr><td height=40px>N° de téléphone : <?php echo "+33 ".$_SESSION['Telephone']; ?></td></tr>
-                    <tr><td height=40px>Statut vendeur : <?php if($_SESSION['Vendeur']==NULL){echo "NON";}else{echo "OUI";} ?></td></tr>
-                </table>
+                <form method="post" action="Update.php" enctype="multipart/form-data">
+                    <div class="input-group">
+                      <label>Nom</label>
+                      <input type="text" name="nom" value="<?php echo $_SESSION['Nom']; ?>">
+                    </div>
+                    <div class="input-group">
+                      <label>Prénom</label>
+                      <input type="text" name="prenom" value="<?php echo $_SESSION['Prenom']; ?>">
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="Photo">Photo de profil</label>
+                      <div class="col-md-4">
+                        <input id="Photo" name="Photo" class="input-file" type="file">
+                      </div>
+                    </div><br><br>
+                        <div class="form-group">
+                      <label class="col-md-4 control-label" for="ImageFond">Image de fond</label>
+                      <div class="col-md-4">
+                        <input id="ImageFond" name="ImageFond" class="input-file" type="file">
+                    </div></div><br><br>
+                    <div class="input-group">
+                      <label>E-mail</label>
+                      <input type="email" name="mail" value="<?php echo $_SESSION['Email']; ?>">
+                    </div>
+                    <div class="input-group">
+                      <label>Téléphone</label>
+                      <input type="number" name="telephone" value="<?php echo $_SESSION['Telephone']; ?>">
+                    </div>
+                    <div class="input-group">
+                      <label>Password</label>
+                      <input type="password" name="mdp" value="<?php echo $_SESSION['MDP']; ?>">
+                    </div>
+                    <div class="form-group">
+                          <input type="submit" class="fadeIn fourth" value="Mettre à jour mon compte" style="background-color: #008080"><br>
+                        </div>
+                </form>
             </div>
         </div>
             </td>
