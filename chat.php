@@ -13,9 +13,6 @@
 
     $db_found = mysqli_select_db($db_handle, $database);
 
-    
-    //$propositions = 0;              //nombre de propositions de prix que peut faire l'acheteur, il ne peut pas en faire plus de 5
-
     $IDacheteur = isset($_SESSION['IDutilisateur']) ? $_SESSION['IDutilisateur'] : NULL;
 
     $IDacheteur = $_SESSION['ID'];     //On trouve l'ID du propriétaire de la session en cours d'utilisation
@@ -33,16 +30,17 @@
             
             //Ces variables doivent être changées pour intégrer la page 
             //$Prix = 12;
-            $EtatVente = 0;
-            $Acceptation = 0;
             $IDproduit = 1;
             $IDvendeur = 3;
             
-            $propositions = "SELECT COUNT (IDutilisateur) FROM negociation WHERE ((IDutilisateur='".$IDacheteur."') AND (IDproduit='".$IDproduit."')) ";      //On compte le nombre de demandes effectuées par un acheteur sur un produit donné
+            $propositions = "SELECT COUNT(*)  FROM `negociation` WHERE ((IDutilisateur='".$IDacheteur."') AND (IDproduit='".$IDproduit."'))";      //On compte le nombre de demandes effectuées par un acheteur sur un produit donné
             
-            $db_handle->query($propositions);   //On effectue la requête ci-dessus
+            //On créer la variable permettant de connaître le nombre de propositions
+            $exec_requete = mysqli_query($db_handle,$propositions);
+            $reponse      = mysqli_fetch_array($exec_requete);
+            $count = $reponse['COUNT(*)'];
             
-            if($propositions < 5 )       //Si on est à moins de 5 propositions
+            if($count < 5 )       //Si on est à moins de 5 propositions
             {
            
                 //On insère la proposition d'achat dans la table négociation
@@ -54,25 +52,25 @@
                         
             
                 //On récupère le booléen spécifiant si la proposition de l'acheteur connecté est satisfaite
-                $requete2 = "SELECT Acceptation FROM negociation WHERE IDutilisateur = '".$IDacheteur."' "; 
+                $acceptation = "SELECT Acceptation FROM negociation WHERE (IDutilisateur = '".$IDacheteur."' AND IDproduit='".$IDproduit."') "; 
             
-                $db_handle->query($requete2);           //On effectue la requête précédente 
-
-       
-
+               // $db_handle->query($acceptation);           //On effectue la requête précédente 
+            
+                $exec_requete = mysqli_query($db_handle,$acceptation);
+                $reponse      = mysqli_fetch_array($exec_requete);
+                $count = $reponse['Acceptation'];
                 
-                if($requete2 == 1)               //Si le vendeur accepte l'offre
+                if($acceptation == 1)               //Si le vendeur accepte l'offre
                 {
                     echo "Bravo, votre offre a été acceptée par l'acheteur";
                     //Suppression de votre ancienne proposition de la table
-                    $requete3 = "DELETE * FROM `negociation` WHERE IDutilisateur='".$IDacheteur."' ";       
+                    $requete3 = "DELETE FROM `negociation` WHERE IDutilisateur='".$IDacheteur."' ";       
                     $db_handle->query($requete3);
 
                 }
-                if($requete2 == null)                     //Si le vendeur refuse l'offre
+                if($acceptation == 0)                     //Si le vendeur refuse l'offre
                 {
-                    ++$propositions;    //Incrémentation du nombre de propositions 
-                    echo "Votre offre n'a pas été acceptée, Le vendeur va vous faire une contre-offre, il vous reste " .$propositions. "propositions";
+                    echo "Votre offre n'a pas été acceptée, Le vendeur va vous faire une contre-offre, il vous reste " .$count. "propositions";
                     //Suppression de votre ancienne proposition de la table 
                     $requete4 = "DELETE FROM `negociation`(`Commentaire`) VALUES ('".$prixPropose."')";  
                     $db_handle->query($requete4);
@@ -81,7 +79,7 @@
             }
             else
             {
-                echo "Vous avez déjà fait cinq offres pour ce produit, vous ne pouvez donc ";
+                echo "Vous avez déjà fait cinq offres pour ce produit, désolé mais vous ne pouvez plus acheter ce produit";
             }
             
         }
