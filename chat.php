@@ -80,6 +80,7 @@
             else
             {
                 echo "Vous avez déjà fait cinq offres pour ce produit, désolé mais vous ne pouvez plus acheter ce produit";
+                //Blindage
             }
             
         }
@@ -87,7 +88,7 @@
     }
     else
     {
-        echo "Veuillez vous connecter pour pouvoir faire des offres !";
+        echo "Veuillez vous connecter pour pouvoir faire des offres !";             //Blindage
     }
 
     mysqli_close($db_handle);

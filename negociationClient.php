@@ -232,50 +232,7 @@
                 }
                 } else {
                     echo "Vous n'avez aucune nouvelle annonce";
-                }
-    
-        
-        /*
-        
-        FAIRE CONDITION DE SELECTION DE L'ANNONCE AVEC IDENTIFIANT NEGOCIATION
-        
-        if()              //RECUPERER LA VALEUR ENTRée par l'utilisateur
-        {
-            
-            $nouveauPrix = isset($_POST['nouveauPrix'])? $_POST["nouveauPrix"] : "";       //On vérifie que l'utilisateur a fait une proposition et on récupère sa valeur 
-
-            
-            echo "Un utilisateur vous a fait une offre d'achat";
-                        
-///////////////////////////////REMPLACER PAR DES IF avec un choix multiple dans le html//////////////////////////
-            
-            if($answer == "oui")
-            {
-                $requete4 = " UPDATE negociation SET EtatVente = 1, Acceptation = 1 ";      //Acceptation de la demande du client
-                $db_handle->query($requete4);
-                echo "Votre propoition a bien été enregistrée";
-            }
-            
-            if($answer == "non")            
-            {
-                $requete5 = " UPDATE negociation SET EtatVente = 1, Acceptation = 0 ";      //Acceptation de la demande du client
-                $db_handle->query($requete5);
-                echo "Votre propoition a bien été enregistrée";
-            }
-            
-            if($answer == "contreProposition")
-            {
-                if($_POST['nouveauPrix'])       //Si une contre-offre est proposé par le vendeur du produit
-                {
-                    //Acceptation de la demande du client
-                    $requete6 = " UPDATE negociation SET Commentaire = '".$nouveauPrix."',Prix = '".$nouveauPrix."'";      
-                    $db_handle->query($requete6);
-                    echo "Votre propoition a bien été enregistrée";
-                }
-            }
-        
-        }*/
-        
+                }  
     }
     else 
     {
@@ -296,23 +253,24 @@
            
            <h3>Répondez favorablement, négativement ou faites une contre-offre : </h3>
            <table>
-               
+               <!--
                <tr>
                     <td>Chosissez une option :</td>
                
                     <td>
                         <div>
-                            <input type="radio" id="Oui" name="drone" value="Oui">
+                            <input type="radio" id="Oui" name="choix" value="Oui" >
                             <label for="Oui">Oui</label>
                         </div>
                         <div>
-                            <input type="radio" id="Non" name="drone" value="Non">
+                            <input type="radio" id="Non" name="choix" value="Non">
                             <label for="Non">Non</label>
                         </div>
-                        <div>
-                            
-                            <!--Code Javascript pour faire apparaître la zone de texte-->
-                            <script type="text/javascript">
+                       
+                        <div>   
+                -->            
+                            <!--Code Javascript pour faire apparaître la zone de texte dans laquelle l-->
+                <!--            <script type="text/javascript">
                                     function testClic(radio, zone) {
                                         if(radio.checked == true) {
                                             document.getElementById(zone).style.display = "block";
@@ -322,16 +280,25 @@
                                     }
                             </script>
                             
-                            <input type="radio" id="contreProposition" name="drone" value="contreProposition" onclick="testClic(this, 'zone1')"/>
+                            <input type="radio" id="contreProposition" name="choix" value="contreProposition" onclick="testClic(this, 'zone1')"/>
                             <label for="contreProposition">Contre Offre (Entrez un prix en euros)</label>
-                            <div id="zone1" style="display:none" ><input type="text" name="drone" value="nouveauPrix"/> </div>
-                        </div>
+                            <div id="zone1" style="display:none" ><input type="text" name="choix" /> </div>
+                        </div> 
                     </td>
                 </tr>
+            -->
+               
+               <tr>
+                    <td><input type="submit" name="oui">OUI</td>
+               </tr>
                 <tr>
-                    <td><input type="submit" name="answer"></td>
-
+                    <td><input type="submit" name="non">NON</td>
                 </tr>
+                    <tr>
+                    <td><input type="number" name="contreProposition">contreProposition</td>
+                        <td>   <input type="submit" name="nouveauPrix"></td>td>
+                </tr>
+               
                
             </table>
            
