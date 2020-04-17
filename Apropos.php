@@ -54,6 +54,23 @@
                 left: 0;
               z-index: 1;
             }
+            .bar-categorie{
+            background:#008080;
+                z-index: 1;
+            height:120px;
+            width: 200px;
+            text-align: center;
+            font-family: comic sans ms;
+            border-width:1px;
+            border-style:solid;
+            border-color:white;
+            position:fixed;
+            }
+
+            .categorie{
+            color:white;
+            font-family: comic sans ms;
+            }
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -71,6 +88,19 @@
               $('.nav-bar').removeClass('fixed');
             }
           });
+
+            jQuery(document).ready(function($) {
+                                
+                    $('.categorie').mouseenter(function(){
+                        $('.categorie').html('<div class="bar-categorie"><a href="Categorie.html"><div class="categorie">Féraille ou Trésor</div><a href="Categorie.html"><div class="categorie">Bon pour le Musée</div><a href="Categorie.html"><div class="categorie">Accessoire VIP</div></div>');
+                    });
+
+                    $('.categorie').mouseleave(function(){
+                        $('.categorie').html('Catégories');
+                        });
+            });
+            
+
         </script>
     </head>
     
@@ -87,7 +117,7 @@
                     </li>
                     <li style="margin-right: 60px;">
                         <a class="underlineHover" href="#" style='text-decoration:none;'>
-                            <div style='color:white;font-family: comic sans ms;'>Catégories</div>
+                            <div style='color:white;font-family: comic sans ms;'><div class="categorie">Catégories</div></div>
                         </a>
                     </li>
                     <li style="margin-right: 60px;">
@@ -115,10 +145,6 @@
 permette à l’utilisateur d’acheter, d’enchérir ou de négocier pour un item dans le site, aux individus de
 vendre ses items dans le site ou pour le gérant du site d’administrer le site de commerce.<br>L’objectif de ce site sera donc de réaliser une plate-forme en ligne permettant le vente e-commerce par enchères, qu’on peut trouver dans la vraie vie. Cet exercice permettra aux étudiants de se familiariser avec le commerce électronique, qu'ils pourront utiliser à l'avenir pour vendre leurs produits ou leurs services. Dans le cadre de ce projet, les étudiants développeront une plate-forme front-end permettant de vendre des articles de la part de l'administrateur et des vendeurs, ainsi que des achats des clients. Ils développeront également la plate-forme back-end qui permettra des transactions transparentes d’achat et de vente, dont la complexité est dissimulée à l’utilisateur du commerce électronique.<br>
 Cet exercice permettra aux étudiants de mettre en pratique tous les concepts tirés de Web dynamique, dont HTML, XML, CSS, JavaScript, jQuery, Bootstrap, PHP, et MySql. Ils sont également autorisés à utiliser d'autres outils pour complémenter les outils et concepts déjà appris dans ce cours. Il faut noter que les plateformes « ready-made », comme le WordPress, ne permet pas aux élèves de montrer leur compétence à la programmation web et cette raison et par conséquence, elles sont interdites à utiliser pour ce Projet Piscine.</p>
-
-
-
-
         <!--ZONE POUR CODER-->
 
     </body>

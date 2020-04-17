@@ -5,7 +5,7 @@
     $db = mysqli_connect('localhost', 'root', '', 'ebayece')
            or die('could not connect to database');
     $db_found = mysqli_select_db($db, 'ebayece');
-    $sql = "SELECT IDproduit,Nom,Description,Prix,Categorie FROM produit ORDER BY DateMiseEnLigne DESC";
+    $sql = "SELECT IDproduit,Nom,Description,Prix,Categorie FROM produit WHERE Vendu=0 ORDER BY DateMiseEnLigne DESC";
     $carroussel = array();
     $prestigeFerraille = array();
     $prestigeMusee = array();
@@ -14,6 +14,7 @@
     $j=0;
     $k=0;
     $w=0;
+    $date= date('Y-m-d');
     if($db_found) {
         $result = mysqli_query($db, $sql);
         while ($data = mysqli_fetch_assoc($result)) {
@@ -59,6 +60,24 @@
             $w++;
         }
 }
+
+    $req = "SELECT * FROM enchere WHERE DateFin>=".$date;
+    $res = mysqli_query($db, $req);
+    $dat = mysqli_fetch_assoc($res);
+
+    // valeur vendu=1 dans la table produit
+    // modifier valeur du prix dans la table produit
+    $sql = "UPADTE produit SET Vendu=1 AND Prix=".$dat['PrixMax'];
+    mysqli_query($db, $sql);
+
+    // ajouter au panier de l'acheteur
+    $sql2 = "INSERT INTO panier(IDproduit, IDutilisateur) VALUES ((SELECT IDproduit FROM produit WHERE IDproduit=".$dat['IDproduit']."), (SELECT IDproduit FROM produit WHERE IDproduit=".$dat['IDutilisateur']."))";
+    mysqli_query($db, $sql2);
+
+    // supprimer des enchères
+    $sql3 = "DELETE FROM enchere WHERE IDenchere=".$dat['IDenchere'];
+    mysqli_query($db, $sql3);
+
 ?>
 
 <html>
@@ -114,6 +133,7 @@
             }
             .bar-categorie{
             background:#008080;
+                z-index: 1;
             height:120px;
             width: 200px;
             text-align: center;
@@ -200,24 +220,24 @@
         
         <!--Affichage des annonces les plus prestigieuses pour chaque catégorie-->
         <div class="container">
-            <h2 class="title">Regardez les offres à ne pas manquer !</h2><br>
+            <h2 class="title">A ne pas manquer !</h2><br>
             <div class="row text-center text-lg-center">
                 <div class="col-md-4">
                     Ferraille ou trésor<br>
-                    <a href="#">
-                    <img class="img-fluid img-thumbnail" src="<?php echo utf8_encode($prestigeFerraille[0][5])?>" style="max-height:200px"></a>
+                    <form action="#" method="post"><button type="submit" style="background-color:transparent" value="<?php echo $prestigeFerraille[0][0]; ?>">
+                    <img class="img-fluid img-thumbnail" src="<?php echo utf8_encode($prestigeFerraille[0][5])?>" style="max-height:200px"></button></form>
                     <p><?php echo utf8_encode($prestigeFerraille[0][1])?></p>
                 </div>
                 <div class="col-md-4">
                     Bon pour le musée<br>
-                    <a href="#">
-                    <img class="img-thumbnail" src="<?php echo utf8_encode($prestigeMusee[0][5])?>" style="max-height:200px"></a>
+                    <form action="#" method="post"><button type="submit" style="background:transparent" value="<?php echo $prestigeMusee[0][0]; ?>">
+                    <img class="img-thumbnail" src="<?php echo utf8_encode($prestigeMusee[0][5])?>" style="max-height:200px"></button></form>
                     <p><?php echo utf8_encode($prestigeMusee[0][1])?></p>
                 </div>
                 <div class="col-md-4">
                     Accessoire VIP<br>
-                    <a href="#">
-                    <img class="img-thumbnail" src="<?php echo utf8_encode($prestigeVIP[0][5])?>" style="max-height:200px"></a>
+                    <form action="#" method="post"><button type="submit" style="background:transparent" value="<?php echo $prestigeVIP[0][0]; ?>">
+                    <img class="img-thumbnail" src="<?php echo utf8_encode($prestigeVIP[0][5])?>" style="max-height:200px"></button></form>
                     <p><?php echo utf8_encode($prestigeVIP[0][1])?></p>
                 </div>
             </div>
@@ -225,7 +245,7 @@
         
         <!--Affichage d'un carroussel qui montre les dernières arrivées-->
         <div class="container">
-            <h2 class="title">Venez voir nos derniers arrivages</h2>
+            <h2 class="title">Nos derniers arrivages !</h2>
             <div class="shadow-lg p-3 mb-5 bg-white">
                 
                 <div id="demo" class="carousel slide" data-ride="carousel">

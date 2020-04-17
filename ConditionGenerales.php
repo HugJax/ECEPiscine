@@ -53,6 +53,23 @@
                 left: 0;
               z-index: 1;
             }
+            .bar-categorie{
+            background:#008080;
+                z-index: 1;
+            height:120px;
+            width: 200px;
+            text-align: center;
+            font-family: comic sans ms;
+            border-width:1px;
+            border-style:solid;
+            border-color:white;
+            position:fixed;
+            }
+
+            .categorie{
+            color:white;
+            font-family: comic sans ms;
+            }
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -70,6 +87,19 @@
               $('.nav-bar').removeClass('fixed');
             }
           });
+
+            jQuery(document).ready(function($) {
+                                
+                    $('.categorie').mouseenter(function(){
+                        $('.categorie').html('<div class="bar-categorie"><a href="Categorie.html"><div class="categorie">Féraille ou Trésor</div><a href="Categorie.html"><div class="categorie">Bon pour le Musée</div><a href="Categorie.html"><div class="categorie">Accessoire VIP</div></div>');
+                    });
+
+                    $('.categorie').mouseleave(function(){
+                        $('.categorie').html('Catégories');
+                        });
+            });
+            
+
         </script>
     </head>
     
@@ -86,7 +116,7 @@
                     </li>
                     <li style="margin-right: 60px;">
                         <a class="underlineHover" href="#" style='text-decoration:none;'>
-                            <div style='color:white;font-family: comic sans ms;'>Catégories</div>
+                            <div style='color:white;font-family: comic sans ms;'><div class="categorie">Catégories</div></div>
                         </a>
                     </li>
                     <li style="margin-right: 60px;">
@@ -301,10 +331,6 @@ autorisez et nous donnez instruction d'imputer le montant du remboursement sur v
 Vous reconnaissez et acceptez que les autorisations ci-dessus seront données de manière récurrente et à diverses dates, tel que nous le requérons pour mettre en œuvre les règles de la Garantie client eBay. Pour les réclamations futures, lorsque nous tranchons un litige en faveur de l'acheteur, nous le notifions au vendeur et continuons à prélever le vendeur à partir du moyen de paiement de son choix. Si le vendeur ne fournit pas à eBay un moyen de remboursement valide, nous pourrons collecter les sommes dues en utilisant d'autres mécanismes de collecte, dont le recours à une agence de recouvrement. Nous pouvons suspendre la Garantie client eBay sans préavis si nous soupçonnons un abus ou une interférence dans le bon fonctionnement de la Garantie client eBay.
 
 La Garantie client eBay n'est pas la garantie d'un produit ou la garantie d'un service. Il s'agit d'un service supplémentaire, et ne remplace aucune garantie légale prévue par le Code de la consommation ou le Code civil. Indépendamment de l'applicabilité de la Garantie client eBay, les consommateurs peuvent exercer leurs droits contre le vendeur en vertu de la garantie légale de conformité des produits.</p>
-
-
-
-
         <!--ZONE POUR CODER-->
 
     </body>
