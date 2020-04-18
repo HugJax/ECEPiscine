@@ -140,10 +140,8 @@
         </div>
         
         <!--ZONE DE CODAGE-->
-        
-        
-        
-                <!-------Code dédié à la contre offre du vendeur-------->
+
+        <!-------Code dédié au chat de négociation -------->
         <!------------------------------------------------->
         <!------------------------------------------------->
         <!------------------------------------------------->
@@ -156,162 +154,38 @@
                 font-family: fantasy;
                 text-align: center;
             }
-                    
-            h3{
-                font-family: fantasy;
-                text-align: center;
-            }
             
             p{
                 font-family:cursive;
                 text-align: center;
                 color: blue;
             }
-            
-            tr{
-                align-content: center;
-            }
         
         </style>
         
         <!--Texte présentation page-->
         
-        <h1> Bonjour, des clients vous propose d'acheter vos produit ! </h1>
-        <p>Le client vous propose un prix, vous n'êtes pas tenu de l'accepter.</p>
-        <p>Trois possibilités s'offrent à vous, vous pouvez accepter l'offre du client la décliner ou bien faire une contre-offre </p>
-        <p>!!! Attention, le client ne peut vous proposer que 5 prix différents, soyez habile dans vos propositions !!!</p>
+        <h1> Bienvenue sur l'option "Enchères"</h1>
+        <p>Indiquez le prix maximal que vous êtres prêt à payer !</p>
+        <p>L'administrateur du site vous informera si vous avez gagné l'enchère</p>
         <br><br><br><br>
         <p> </p>
-        
-        
-        <!--PHP affichant l'ensemble des offres d'achat reçus par le vendeur connecté-->
-        
-        <?php
-        
-            //Connexion à la base de données
-    
-            $database = 'ebayece';
 
-            $db_handle = mysqli_connect('localhost','root', '');
+          
+        <form action="encheres.php" method="post">
+        <p>
+            <label for="enchereMax">Entrez la somme maximale que vous pourriez débourser pour ce projet : </label>  <input type="number" name="enchereMax" id="enchereMax" /> euros <br />            
 
-            $db_found = mysqli_select_db($db_handle, $database);
             
-            $IDvendeur = isset($_SESSION['IDutilisateur']) ? $_SESSION['IDutilisateur'] : NULL;
-
-            $IDvendeur = $_SESSION['ID'];     //On trouve l'ID du propriétaire (le vendeur) de la session en cours d'utilisation
-
-            if($IDvendeur)             //Si la session du vendeur est reconnue
-            {
-        
-        
-                //////////////////////////POUR LA VERSION INTEGREE CREER UNE RECUPERATION DE LA VALEUR DE IDproduitAchete grâce au clic sur l'annonce
-        
-                // $IDproduitAchete = 4;           //cette variable doit être adaptée aux futures vrais annonces
-        
-                //Requête récupérant les données contenues dans la table négociation considérant l'identité de la personne connecté
-                $requete ="SELECT negociation.IDnegociation, negociation.IDnegociation, negociation.IDproduit,              negociation.IDutilisateur, negociation.Commentaire, negociation.Prix, negociation.EtatVente, negociation.Prix, negociation.Acceptation 
-                    FROM negociation 
-                    INNER JOIN produit ON negociation.IDproduit = produit.IDproduit 
-                    INNER JOIN utilisateur ON negociation.IDutilisateur = utilisateur.IDutilisateur
-                    WHERE ((produit.IDutilisateur = '".$IDvendeur."'))";
-        
-                //(negociation.IDproduit= '".$IDproduitAchete."')
-
-                //si la BDD existe, affichage des données de la table 
-                if($db_found) {
-                    $result = mysqli_query($db_handle, $requete);
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "IDnegociation: ". $data['IDnegociation']."<br>";
-                    echo "IDproduit: ". $data['IDproduit']."<br>";
-                    echo "IDutilisateur: ". $data['IDutilisateur']."<br>";
-                    echo "Commentaire: ". $data['Commentaire']."<br>";
-                    echo "Prix: ". $data['Prix']."<br>";
-                    echo "EtatVente: ". $data['EtatVente']."<br>";
-                    echo "Acceptation: ". $data['Acceptation']."<br><br>";
-            
-                }
-                } else {
-                    echo "Vous n'avez aucune nouvelle annonce";
-                }  
-    }
-    else 
-    {
-        echo "Veuillez vous connecter pour voir vos annonces";
-    }
-
-
-
-
-?>
-
-        <!-- Le vendeur sélectionne une option -->
-       <form action="ContreOffre.php" method="post"> 
-            
-           <h3>Entrez l'identifiant de l'annonce à laquelle vous voulez répondre : </h3>
-           <br><br>
-           <input type="number" name="idAnnonce" id="idAnnonce"/>
-           
-           <h3>Répondez favorablement, négativement ou faites une contre-offre : </h3>
-           <table>
-               <!--
-               <tr>
-                    <td>Chosissez une option :</td>
-               
-                    <td>
-                        <div>
-                            <input type="radio" id="Oui" name="choix" value="Oui" >
-                            <label for="Oui">Oui</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="Non" name="choix" value="Non">
-                            <label for="Non">Non</label>
-                        </div>
-                       
-                        <div>   
-                -->            
-                            <!--Code Javascript pour faire apparaître la zone de texte dans laquelle l-->
-                <!--            <script type="text/javascript">
-                                    function testClic(radio, zone) {
-                                        if(radio.checked == true) {
-                                            document.getElementById(zone).style.display = "block";
-                                            } else {
-                                            document.getElementById(zone).style.display = "none";
-                                            }
-                                    }
-                            </script>
-                            
-                            <input type="radio" id="contreProposition" name="choix" value="contreProposition" onclick="testClic(this, 'zone1')"/>
-                            <label for="contreProposition">Contre Offre (Entrez un prix en euros)</label>
-                            <div id="zone1" style="display:none" ><input type="text" name="choix" /> </div>
-                        </div> 
-                    </td>
-                </tr>
-            -->
-               
-               <tr>
-                    <td><input type="submit" name="oui">OUI</td>
-               </tr>
-                <tr>
-                    <td><input type="submit" name="non">NON</td>
-                </tr>
-                    <tr>
-                    <td><input type="number" name="contreProposition">contreProposition</td>
-                        <td>   <input type="submit" name="nouveauPrix"></td>td>
-                </tr>
-               
-               
-            </table>
-           
-                
+            <input type="submit" value="Envoyer" />
+	   </p>
         </form>
         
+        
         <!------------------------------------------------->
         <!------------------------------------------------->
-        <!---------- --------------------------------------->
+        <!------------------------------------------------->
         <!------Fin  du chat de négociation--------------->
-        
-        
-
 
         <!--ZONE DE CODAGE-->
         
@@ -354,3 +228,67 @@
             </table>
     </footer>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
