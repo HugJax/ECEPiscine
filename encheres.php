@@ -1,6 +1,4 @@
-<?php
-    
-    session_start();
+
 
     //Connexion à la base de données version 1
     //$db = mysqli_connect('localhost', 'root', '', 'ebayece')
@@ -24,20 +22,6 @@
     {
         $enchereMax = isset($_POST['enchereMax'])? $_POST["enchereMax"] : "";       //On vérifie que l'utilisateur a fait une proposition de prix
 
-        if(isset($_POST['enchereMax']))           //l'enchère maximale est proposée par l'acheteur
-        {  
-            
-            //Ces variables doivent être changées pour intégrer la page 
-            //$Prix = 12;
-            $IDproduit = 1;
-            $IDvendeur = 3;
-   
-            //On insère la proposition d'achat dans la table négociation
-            $requete1 = "INSERT INTO `enchere`(`IDenchere`, `IDadmin`, `IDutilisateur`, `IDproduit`, `PrixCours`, `PrixMax`) VALUES (IDenchere, 1,(SELECT IDutilisateur FROM utilisateur WHERE IDutilisateur='".$IDacheteur."'), PrixCours,(SELECT IDproduit FROM produit WHERE IDproduit='".$IDproduit."'), '".$enchereMax."')";
-           
-            $db_handle->query($requete1);           //On effectue la requête d'insertion précédente
-                                    
-            echo "Merci pour votre offre";
         
         }
         else
@@ -56,4 +40,3 @@
     mysqli_close($db_handle);
     
 
-?>
